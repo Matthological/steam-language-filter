@@ -1,5 +1,6 @@
 *.pyc
 *.log
+*.sql*
 activate_env
 python_env/
 

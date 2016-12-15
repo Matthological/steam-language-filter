@@ -1,9 +1,6 @@
 from flask import Flask
+from modules.database import Database
 application = Flask(__name__)
-
-@application.route("/")
-def hello():
-    return "<h1 style='color:blue'>Hello There!!!</h1>"
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)
