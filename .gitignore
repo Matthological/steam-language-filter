@@ -1,0 +1,5 @@
+*.pyc
+*.log
+activate_env
+python_env/
+
