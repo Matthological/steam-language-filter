@@ -1,8 +1,11 @@
-import os, sys
+import os, sys, logging
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 from models import * #getting around cyclic imports
+
+log = logging.getLogger('{0}.{1}'.format("web_api", "database"))
+
 
 class Database(object):
     def __init__(self, flask_app, db_path):
@@ -17,9 +20,11 @@ class Database(object):
     
     def create_db_if_absent(self):
         if not os.path.isfile(self.db_filepath):
+            log.info("Couldn't find db file at '{0}'. Creating it there now.".format(self.db_filepath))
             with self.flask_app.app_context():
                 db.create_all()
-
+        else:
+            log.debug("Found db file at '{0}'.")
 
 
 if __name__ == "__main__":
