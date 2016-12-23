@@ -2,7 +2,7 @@ import os, sys, logging
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-from models import * #getting around cyclic imports
+from .models import * #getting around cyclic imports
 
 log = logging.getLogger('{0}.{1}'.format("web_api", "database"))
 
@@ -30,5 +30,39 @@ class Database(object):
         else:
             log.debug("Found db file at '{0}'.".format(self.db_filepath))
 
-    def add_app_language(self, app_id, app_name, app_pic_src, languages):
+
+    def get_app(self, app_id):
         pass
+
+    def add_app_language(self, app_id, app_name, app_pic_src, languages):
+        app = self.get_app(app_id)
+        if not app:
+            log.debug("App {} ({}) doesn't exist in DB, adding it".format(app_name, app_id))
+            app = self.add_app(app_id, app_name, app_pic_src)
+
+        for name, media in languages:
+            lang = self.get_lang(name, media)
+            if not lang:
+                log.debug("Lang {} -  {} doesn't exist in DB, adding it".format(name, media))
+                lang = self.add_language_entry(name, media)
+
+            app_lang_junction = self.get_app_lang_junction(app, lang)
+            if not app_lang_junction:
+                log.debug("Relationship between app {} ({}) and Lang {} -  {} doesn't exist in DB, adding it".format(app_name, app_id, name, media))
+                self.add_app_lang_junction(app, lang)
+
+    def add_app(self, app_id, app_name, app_pic_src):
+        pass
+
+    def get_lang(self, name, media):
+        pass
+
+    def add_language_entry(self, name, media):
+        pass
+
+    def get_app_lang_junction(self, app, lang):
+        pass
+
+    def add_app_lang_junction(self, app, lang):
+        pass
+

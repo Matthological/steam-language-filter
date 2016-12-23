@@ -1,4 +1,4 @@
-from database import db
+from .database import db
 
 steam_apps_langs_relationship = db.Table("steam_apps_langs", db.Model.metadata,
                                   db.Column('app_id', db.Integer, db.ForeignKey('steam_app.id')),

@@ -1,9 +1,8 @@
 from flask import Flask
 from modules.database import Database
 from modules.config import get_config
-from modules.steam_parser import populate_db
 import sys, os, logging
-application = Flask(__name__)
+application = Flask("steam-language-filter")
 
 logging.basicConfig()
 log = logging.getLogger('web_api')
@@ -30,8 +29,4 @@ log.setLevel(config['log_level'])
 db = Database(application, config['db_filepath'])
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "--refresh_db":
-        log.info("Refreshing steam app and language db" )
-        populate_db(db)        
-    else:
         application.run(host='0.0.0.0', debug=True)

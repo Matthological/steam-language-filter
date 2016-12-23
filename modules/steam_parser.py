@@ -47,17 +47,16 @@ def parse_html(soup):
 def populate_db(db):
     apps = get_list_appids()
     log.info("Fetched {0} app ids".format(len(apps)))    
-    limit = 1000;
+    limit = 100;
     for appid, appname in ((app['appid'], app['name']) for app in apps):
         try:
             limit -= 1
             if(limit == 0):
                 break
             app_name, app_pic_src, languages = get_app_info(appid)
-        except Exception as e:
-            log.debug("Steam webpage for app '{0}' {1} could not be parsed correctly: {2}".format(appname, appid, e))
+        except AttributeError as e:
+            log.debug("Steam webpage for app '{0}' ({1}) could not be parsed correctly: {2}".format(appname, appid, e))
             continue
-        log.debug("Adding languages for  app '{0}' {1}: {2}".format(appname, appid, languages)) 
-
+        log.debug("Found Steam app '{0}' ({1}) with languages {2}".format(appname, appid, languages))
         db.add_app_language(appid, app_name, app_pic_src, languages)
         
