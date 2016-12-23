@@ -31,9 +31,6 @@ class Database(object):
             log.debug("Found db file at '{0}'.".format(self.db_filepath))
 
 
-    def get_app(self, app_id):
-        pass
-
     def add_app_language(self, app_id, app_name, app_pic_src, languages):
         app = self.get_app(app_id)
         if not app:
@@ -51,16 +48,19 @@ class Database(object):
                 log.debug("Relationship between app {} ({}) and Lang {} -  {} doesn't exist in DB, adding it".format(app_name, app_id, name, media))
                 self.add_app_lang_junction(app, lang)
 
-    def add_app(self, app_id, app_name, app_pic_src):
-        pass
-
     def get_lang(self, name, media):
         pass
 
-    def add_language_entry(self, name, media):
+    def get_app_lang_junction(self, app, lang):
         pass
 
-    def get_app_lang_junction(self, app, lang):
+    def get_app(self, app_id):
+        pass
+
+    def add_app(self, app_id, app_name, app_pic_src):
+        pass
+
+    def add_language_entry(self, name, media):
         pass
 
     def add_app_lang_junction(self, app, lang):
