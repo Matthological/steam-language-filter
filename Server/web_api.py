@@ -38,7 +38,7 @@ def get_all_languages():
 # This is temporarily added to allow running index.html from file
 @application.after_request
 def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', 'null') 
+    response.headers.add('Access-Control-Allow-Origin', 'null')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     return response
