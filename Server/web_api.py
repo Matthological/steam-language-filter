@@ -15,18 +15,8 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 log.addHandler(fh)
 
-
-config_filename = "web_api.config"
-config_path = "{0}/{1}".format(os.path.dirname(os.path.realpath(__file__)), config_filename)
-
-default_db_filename = "web_api.sql"
-db_path = "{0}/{1}".format(os.path.dirname(os.path.realpath(__file__)), default_db_filename)
-
-default_log_level = "DEBUG"
-
-
-config = get_config(config_path, db_path, default_log_level)
-
+config_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "web_api.config")
+config = get_config(config_path)
 log.setLevel(config['log_level'])
 db = Database(application, config['db_filepath'])
 
@@ -44,8 +34,10 @@ def after_request(response):
     return response
 
 if __name__ == "__main__":
+    # TODO: move this out into a separate script, we shouldn't be populating the DB in the webapi
     if len(sys.argv) > 1 and sys.argv[1] == "--refresh_db":
-        log.info("Refreshing steam app and language db" )
+        log.info("Refreshing steam app and language db")
         populate_db(db)        
     else:
+        # TODO: elaborate on this (a --debug flag + a --host flag)
         application.run(host='0.0.0.0', debug=True)
